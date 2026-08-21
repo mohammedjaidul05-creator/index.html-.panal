@@ -1,3 +1,53 @@
+<button class="preset" onclick="copySettings()">
+  📋 Copy Settings
+</button>
+
+<script>
+async function copySettings() {
+
+  const text =
+`🎮 FF Settings
+
+📱 Device: ${document.getElementById("device").value}
+
+🎯 Sensitivity
+General: ${document.getElementById("g").value}
+Red Dot: ${document.getElementById("r").value}
+2x Scope: ${document.getElementById("s2").value}
+4x Scope: ${document.getElementById("s4").value}
+
+🎮 Control: ${document.getElementById("preset").value}`;
+
+  try {
+
+    // Modern browsers
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } 
+    
+    // Mobile/browser fallback
+    else {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      document.execCommand("copy");
+      textarea.remove();
+    }
+
+    alert("✅ Settings copied successfully!");
+
+  } catch (error) {
+    alert("❌ Copy failed. Please try again.");
+  }
+}
+</script>
 <input id="g" type="range" min="0" max="100" value="90">
 <input id="r" type="range" min="0" max="100" value="85">
 <input id="s2" type="range" min="0" max="100" value="80">

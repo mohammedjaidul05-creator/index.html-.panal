@@ -1,66 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FF Legal Settings Panel</title>
-<style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}
-body{margin:0;background:#0d1017;color:#fff}
-header{padding:24px 18px;background:#171b25;text-align:center}
-h1{margin:0;font-size:25px} header p{color:#9da5b5;margin:8px 0 0}
-main{max-width:520px;margin:auto;padding:16px}
-.card{background:#191e28;border-radius:16px;padding:18px;margin-bottom:14px}
-h2{font-size:18px;margin:0 0 15px}
-label{display:block;margin:14px 0 7px;color:#cbd0da}
-input[type=range]{width:100%}
-.value{float:right;font-weight:bold}
-select,button{width:100%;padding:13px;border:0;border-radius:10px;margin-top:8px;font-size:15px}
-select{background:#282e3a;color:white}
-button{font-weight:bold;cursor:pointer}
-.reset{background:#282e3a;color:#fff}
-small{display:block;text-align:center;color:#7f8797;margin-top:18px;line-height:1.5}
-</style>
-</head>
-<body>
-<header><h1>🎮 FF Settings Panel</h1><p>Legal Personal Settings Manager</p></header>
-<main>
-<div class="card" style="text-align:center">
-<h2>📢 Advertisement</h2>
-<div style="min-height:90px;border:1px dashed #596171;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#8e96a6">
-Ad Space — Add your approved ad code here
-</div>
-</div>
-<div class="card">
-<h2>📱 Device</h2>
-<select id="device"><option>Android</option><option>Samsung</option><option>OnePlus</option><option>Redmi</option><option>Realme</option></select>
-</div>
-<div class="card">
-<h2>🎯 Sensitivity</h2>
-<label>General <span class="value" id="gv">90</span></label><input id="g" type="range" min="0" max="100" value="90">
-<label>Red Dot <span class="value" id="rv">85</span></label><input id="r" type="range" min="0" max="100" value="85">
-<label>2x Scope <span class="value" id="s2v">80</span></label><input id="s2" type="range" min="0" max="100" value="80">
-<label>4x Scope <span class="value" id="s4v">70</span></label><input id="s4" type="range" min="0" max="100" value="70">
-</div>
-<div class="card">
-<h2>🎮 Control Preset</h2>
-<select id="preset"><option>2 Finger</option><option>3 Finger</option><option>4 Finger</option></select>
-<button onclick="save()">💾 Save Settings</button>
-<button class="reset" onclick="resetPanel()">🔄 Reset</button>
-</div>
-<small>This panel only stores your personal settings. It does not modify Free Fire files, APK, memory, or anti-cheat systems.</small>
-</main>
+<button class="preset" onclick="copySettings()">
+  📋 Copy Settings
+</button>
+
 <script>
-const pairs=[['g','gv'],['r','rv'],['s2','s2v'],['s4','s4v']];
-pairs.forEach(([a,b])=>document.getElementById(a).oninput=e=>document.getElementById(b).textContent=e.target.value);
-function save(){
- const x={device:device.value,g:g.value,r:r.value,s2:s2.value,s4:s4.value,preset:preset.value};
- localStorage.setItem('ffLegalSettings',JSON.stringify(x)); alert('✅ Settings saved!');
-}
-function resetPanel(){
- g.value=90;r.value=85;s2.value=80;s4.value=70;
- gv.textContent=90;rv.textContent=85;s2v.textContent=80;s4v.textContent=70;
+async function copySettings() {
+
+  const text =
+`🎮 FF Settings
+
+📱 Device: ${document.getElementById("device").value}
+
+🎯 Sensitivity
+General: ${document.getElementById("g").value}
+Red Dot: ${document.getElementById("r").value}
+2x Scope: ${document.getElementById("s2").value}
+4x Scope: ${document.getElementById("s4").value}
+
+🎮 Control: ${document.getElementById("preset").value}`;
+
+  try {
+
+    // Modern browsers
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } 
+    
+    // Mobile/browser fallback
+    else {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      document.execCommand("copy");
+      textarea.remove();
+    }
+
+    alert("✅ Settings copied successfully!");
+
+  } catch (error) {
+    alert("❌ Copy failed. Please try again.");
+  }
 }
 </script>
-</body>
-</html>

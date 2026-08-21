@@ -1,50 +1,22 @@
-<button class="preset" onclick="copySettings()">
-  📋 Copy Settings
-</button>
+<input id="g" type="range" min="0" max="100" value="90">
+<input id="r" type="range" min="0" max="100" value="85">
+<input id="s2" type="range" min="0" max="100" value="80">
+<input id="s4" type="range" min="0" max="100" value="70">
+<input id="g" type="range" min="0" max="200" value="173">
 
-<script>
-async function copySettings() {
+<input id="r" type="range" min="0" max="200" value="85">
 
-  const text =
-`🎮 FF Settings
+<input id="s2" type="range" min="0" max="200" value="122">
 
-📱 Device: ${document.getElementById("device").value}
+<label>Sniper Scope <span class="value" id="snv">53</span></label>
+<input id="sn" type="range" min="0" max="200" value="53">
 
-🎯 Sensitivity
-General: ${document.getElementById("g").value}
-Red Dot: ${document.getElementById("r").value}
-2x Scope: ${document.getElementById("s2").value}
-4x Scope: ${document.getElementById("s4").value}
+<label>Free Camera <span class="value" id="fcv">128</span></label>
+<input id="fc" type="range" min="0" max="200" value="128">
+<input id="s4" type="range" min="0" max="200" value="82">
 
-🎮 Control: ${document.getElementById("preset").value}`;
+<label>Sniper Scope <span class="value" id="snv">53</span></label>
+<input id="sn" type="range" min="0" max="200" value="53">
 
-  try {
-
-    // Modern browsers
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text);
-    } 
-    
-    // Mobile/browser fallback
-    else {
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-
-      textarea.style.position = "fixed";
-      textarea.style.left = "-9999px";
-
-      document.body.appendChild(textarea);
-      textarea.focus();
-      textarea.select();
-
-      document.execCommand("copy");
-      textarea.remove();
-    }
-
-    alert("✅ Settings copied successfully!");
-
-  } catch (error) {
-    alert("❌ Copy failed. Please try again.");
-  }
-}
-</script>
+<label>Free Camera <span class="value" id="fcv">128</span></label>
+<input id="fc" type="range" min="0" max="200" value="128">
